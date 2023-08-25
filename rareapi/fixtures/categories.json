@@ -1,0 +1,16 @@
+[
+  {
+    "model": "rareapi.category",
+    "pk": 1,
+    "fields": {
+      "label": "Pop Culture"
+    }
+  },
+  {
+    "model": "rareapi.category",
+    "pk": 2,
+    "fields": {
+      "label": "Home Decor"
+    }
+  }
+]
