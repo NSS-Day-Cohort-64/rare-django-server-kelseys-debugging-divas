@@ -13,5 +13,5 @@ class Post(models.Model):
     image_url = models.CharField(max_length=150)
     content = models.CharField(max_length=10000)
     approved = models.BooleanField(default=True)
-    reactions = models.ManyToManyField("Reaction", through="PostReactions")
-    tags = models.ManyToManyField("Tag", through="PostTags")
+    reactions = models.ManyToManyField("Reaction", through="PostReaction")
+    tags = models.ManyToManyField("Tag", through="PostTag")
