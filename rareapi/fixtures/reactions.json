@@ -1,0 +1,17 @@
+[
+    {
+        "model": "rareapi.reaction",
+        "pk": 1,
+        "fields": {
+            "emoji": "😆"
+        }
+    },
+    {
+        "model": "rareapi.reaction",
+        "pk": 2,
+        "fields": {
+            "emoji": "🥱"
+                
+        }
+    }
+]
