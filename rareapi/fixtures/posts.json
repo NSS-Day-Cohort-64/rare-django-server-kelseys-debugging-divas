@@ -1,0 +1,28 @@
+[
+  {
+    "model": "rareapi.post",
+    "pk": 1,
+    "fields": {
+      "author": 1,
+      "category": 1,
+      "title": "Top 5 Most Iconic Housewives",
+      "publication_date": "2023-07-31",
+      "image_url": "https://i.imgur.com/3SUyk7F.png",
+      "content": "1. Lisa Vanderpump 2. NeNe Leakes 3.Luann de Lesseps 4. Teresa Giudice 5. Lisa Rinna",
+      "approved": true
+    }
+  },
+  {
+    "model": "rareapi.post",
+    "pk": 2,
+    "fields": {
+      "author": 1,
+      "category": 2,
+      "title": "Customizing Your Workspace",
+      "publication_date": "2023-07-31",
+      "image_url": "https://i.imgur.com/HBDRvSA.jpg",
+      "content": "COZY! <3",
+      "approved": true
+    }
+  }
+]
