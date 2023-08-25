@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 
 
-class Subscriptions(models.Model):
+class Subscription(models.Model):
     follower = models.ForeignKey(
         User, on_delete=models.DO_NOTHING, related_name="subscriptions")
     author = models.ForeignKey(
