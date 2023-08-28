@@ -6,3 +6,4 @@ from .subscription import Subscription
 from .comment import Comment
 from .reaction import Reaction
 from .postreaction import PostReaction
+from .author import Author
