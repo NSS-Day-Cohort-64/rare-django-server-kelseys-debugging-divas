@@ -1,0 +1,18 @@
+[
+    {
+        "model": "rareapi.author",
+        "pk": 1,
+        "fields": {
+            "user": 1,
+            "bio": "I like to run"
+        }
+    },
+    {
+        "model": "rareapi.author",
+        "pk": 2,
+        "fields": {
+            "user": 2,
+            "bio": "I like to sleep"
+        }
+    }
+]
