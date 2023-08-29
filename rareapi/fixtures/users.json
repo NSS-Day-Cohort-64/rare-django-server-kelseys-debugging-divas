@@ -10,9 +10,11 @@
             "last_name": "Doe",
             "email": "jd123@gmail.com",
             "is_staff": true,
-            "is_active": false,
+            "is_active": true,
             "date_joined": "2021-08-28T14:51:39.989Z",
-            "first_name": "John"
+            "first_name": "John",
+            "groups": [],
+            "user_permissions": []
         }
     },
     {
@@ -26,9 +28,11 @@
             "last_name": "Doe",
             "email": "jane123@gmail.com",
             "is_staff": false,
-            "is_active": false,
+            "is_active": true,
             "date_joined": "2021-02-28T14:51:39.989Z",
-            "first_name": "Jane"
+            "first_name": "Jane",
+            "groups": [],
+            "user_permissions": []
                 
         }
     }

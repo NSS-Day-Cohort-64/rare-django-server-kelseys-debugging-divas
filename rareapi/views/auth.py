@@ -9,7 +9,6 @@ from rest_framework.response import Response
 from rareapi.models import Author
 
 
-
 @api_view(['POST'])
 @permission_classes([AllowAny])
 def login_user(request):
@@ -18,18 +17,15 @@ def login_user(request):
     Method arguments:
       request -- The full HTTP request object
     '''
-    email = request.data.get('email', None)
-    password = request.data.get('password', None)
+    username = request.data['username']
+    password = request.data['password']
 
     # Use the built-in authenticate method to verify
     # authenticate returns the user object or None if no user is found
-    if email is not None and password is not None:
-        authenticated_user = authenticate(username=email, password=password)
-    else:
-        return Response({'message': 'Please provide email and password'}, status=status.HTTP_401_UNAUTHORIZED)
+    authenticated_user = authenticate(username=username, password=password)
 
     # If authentication was successful, respond with their token
-    if authenticated_user is not None:
+    if authenticated_user is not None and authenticated_user.is_active:
         token = Token.objects.get(user=authenticated_user)
 
         data = {
@@ -41,7 +37,7 @@ def login_user(request):
         # Bad login details were provided. So we can't log the user in.
         data = { 'valid': False }
         return Response(data)
-
+    
 @api_view(['POST'])
 @permission_classes([AllowAny])
 def register_user(request):
