@@ -9,7 +9,7 @@ class Post(models.Model):
     category = models.ForeignKey(
         "Category", on_delete=models.DO_NOTHING, related_name='posts')
     title = models.CharField(max_length=100)
-    publication_date = models.DateField(auto_now=True)
+    publication_date = models.DateTimeField(auto_now=True)
     image_url = models.CharField(max_length=150)
     content = models.CharField(max_length=10000)
     approved = models.BooleanField(default=True)
