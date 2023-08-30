@@ -9,12 +9,9 @@ from rareapi.models import Post, Category, Author, PostTag, Reaction
 from rest_framework.authtoken.models import Token
 
 
-
 class PostView(ViewSet):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
-
-    
 
     def list(self, request):
         posts = Post.objects.all().order_by('-publication_date')
@@ -27,17 +24,16 @@ class PostView(ViewSet):
         serializer = PostSerializer(posts, many=True)
         return Response(serializer.data)
 
-
     def retrieve(self, request, pk):
         post = Post.objects.get(pk=pk)
         serializer = PostSerializer(post)
         return Response(serializer.data)
-    
+
     def create(self, request):
         """Handle POST operations"""
         author_id = request.data['author']  # Assuming you're sending the author ID in the request data
         author = User.objects.get(id=author_id)
-        
+
         category = Category.objects.get(pk=request.data['category'])
 
         post = Post.objects.create(
@@ -53,17 +49,17 @@ class PostView(ViewSet):
         serializer = PostSerializer(post)
         return Response(serializer.data)
 
-        
 
 class PostCategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
         fields = ('id', 'label')
 
+
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('id','first_name', 'last_name')
+        fields = ('id', 'first_name', 'last_name')
 
 
 class PostSerializer(serializers.ModelSerializer):
@@ -73,4 +69,4 @@ class PostSerializer(serializers.ModelSerializer):
     class Meta:
         model = Post
         fields = ('id', 'author', 'category', 'title', 'publication_date',
-                'image_url', 'content', 'approved', 'reactions', 'tags')
+                  'image_url', 'content', 'approved', 'reactions', 'tags')
