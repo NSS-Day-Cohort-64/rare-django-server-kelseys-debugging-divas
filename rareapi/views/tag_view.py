@@ -4,8 +4,9 @@ from rest_framework.response import Response
 from rest_framework import serializers, status
 from rareapi.models import Tag
 
+
 class TagView(ViewSet):
-  def list(self, request):
+    def list(self, request):
         """Handle GET requests to get all game types
 
         Returns:
@@ -15,7 +16,7 @@ class TagView(ViewSet):
         serializer = TagSerializer(tags, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
-  def create(self, request):
+    def create(self, request):
         """Handle POST operations
 
         Returns
@@ -26,9 +27,9 @@ class TagView(ViewSet):
         )
         serializer = TagSerializer(tag)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
-  
-  def destroy(self, request, pk):
-        """Handle DELETE requests for games
+
+    def destroy(self, request, pk):
+        """Handle DELETE requests for tags
 
         Returns:
             Response -- Empty body with 204 status code
@@ -36,7 +37,8 @@ class TagView(ViewSet):
         tag = Tag.objects.get(pk=pk)
         tag.delete()
         return Response(None, status=status.HTTP_204_NO_CONTENT)
-    
+
+
 class TagSerializer(serializers.ModelSerializer):
     """JSON serializer for game types
     """
