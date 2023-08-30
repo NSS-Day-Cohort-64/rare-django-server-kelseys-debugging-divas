@@ -7,6 +7,7 @@ from rest_framework.permissions import IsAuthenticated
 from django.contrib.auth.models import User
 from rareapi.models import Post, Category, Author, PostTag, Reaction
 from rest_framework.authtoken.models import Token
+from django.utils import timezone
 
 
 class PostView(ViewSet):
@@ -14,7 +15,12 @@ class PostView(ViewSet):
     permission_classes = [IsAuthenticated]
 
     def list(self, request):
-        posts = Post.objects.all().order_by('-publication_date')
+        now = timezone.now()
+
+        posts = Post.objects.filter(
+            approved=True,
+            publication_date__lte=now
+        ).order_by('-publication_date')
 
         token = request.query_params.get("token", None)
         if token:
