@@ -15,28 +15,51 @@ class TagView(ViewSet):
         tags = Tag.objects.all().order_by('label')
         serializer = TagSerializer(tags, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
+  
+    def retrieve(self, request, pk):
+          """Handle GET requests for a single tag
 
+          Returns:
+              Response -- JSON serialized tag instance
+          """
+          tag = Tag.objects.get(pk=pk)
+          serializer = TagSerializer(tag, many=False)
+          return Response(serializer.data)
+          
     def create(self, request):
-        """Handle POST operations
+          """Handle POST operations
 
-        Returns
-            Response -- JSON serialized Tag instance
-        """
-        tag = Tag.objects.create(
-            label=request.data["label"]
-        )
-        serializer = TagSerializer(tag)
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+          Returns
+              Response -- JSON serialized Tag instance
+          """
+          tag = Tag.objects.create(
+              label=request.data["label"]
+          )
+          serializer = TagSerializer(tag)
+          return Response(serializer.data, status=status.HTTP_201_CREATED)
+    
+    def update(self, request, pk):
+          """Handle PUT requests for a tag
 
+          Returns:
+              Response -- Empty body with 204 status code
+          """
+
+          tag = Tag.objects.get(pk=pk)
+          tag.label = request.data["label"]
+          tag.save()
+
+          return Response(None, status=status.HTTP_204_NO_CONTENT)
+    
     def destroy(self, request, pk):
-        """Handle DELETE requests for tags
+          """Handle DELETE requests for tags
 
-        Returns:
-            Response -- Empty body with 204 status code
-        """
-        tag = Tag.objects.get(pk=pk)
-        tag.delete()
-        return Response(None, status=status.HTTP_204_NO_CONTENT)
+          Returns:
+              Response -- Empty body with 204 status code
+          """
+          tag = Tag.objects.get(pk=pk)
+          tag.delete()
+          return Response(None, status=status.HTTP_204_NO_CONTENT)
 
 
 class TagSerializer(serializers.ModelSerializer):
