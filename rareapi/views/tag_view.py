@@ -26,6 +26,16 @@ class TagView(ViewSet):
         )
         serializer = TagSerializer(tag)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
+  
+  def destroy(self, request, pk):
+        """Handle DELETE requests for games
+
+        Returns:
+            Response -- Empty body with 204 status code
+        """
+        tag = Tag.objects.get(pk=pk)
+        tag.delete()
+        return Response(None, status=status.HTTP_204_NO_CONTENT)
     
 class TagSerializer(serializers.ModelSerializer):
     """JSON serializer for game types
