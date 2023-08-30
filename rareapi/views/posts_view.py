@@ -7,17 +7,20 @@ from rest_framework.permissions import IsAuthenticated
 from django.contrib.auth.models import User
 from rareapi.models import Post, Category, Author, PostTag, Reaction
 from rest_framework.authtoken.models import Token
-
+from django.utils import timezone
 
 
 class PostView(ViewSet):
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
 
-    
-
     def list(self, request):
-        posts = Post.objects.all().order_by('-publication_date')
+        now = timezone.now()
+
+        posts = Post.objects.filter(
+            approved=True,
+            publication_date__lte=now
+        ).order_by('-publication_date')
 
         token = request.query_params.get("token", None)
         if token:
@@ -27,17 +30,16 @@ class PostView(ViewSet):
         serializer = PostSerializer(posts, many=True)
         return Response(serializer.data)
 
-
     def retrieve(self, request, pk):
         post = Post.objects.get(pk=pk)
         serializer = PostSerializer(post)
         return Response(serializer.data)
-    
+
     def create(self, request):
         """Handle POST operations"""
         author_id = request.data['author']  # Assuming you're sending the author ID in the request data
         author = User.objects.get(id=author_id)
-        
+
         category = Category.objects.get(pk=request.data['category'])
 
         post = Post.objects.create(
@@ -53,17 +55,27 @@ class PostView(ViewSet):
         serializer = PostSerializer(post)
         return Response(serializer.data)
 
-        
+    def destroy(self, request, pk):
+        """Handle DELETE requests for posts
+
+        Returns:
+            Response -- Empty body with 204 status code
+        """
+        post = Post.objects.get(pk=pk)
+        post.delete()
+        return Response(None, status=status.HTTP_204_NO_CONTENT)
+
 
 class PostCategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
         fields = ('id', 'label')
 
+
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('id','first_name', 'last_name')
+        fields = ('id', 'first_name', 'last_name')
 
 
 class PostSerializer(serializers.ModelSerializer):
@@ -73,4 +85,4 @@ class PostSerializer(serializers.ModelSerializer):
     class Meta:
         model = Post
         fields = ('id', 'author', 'category', 'title', 'publication_date',
-                'image_url', 'content', 'approved', 'reactions', 'tags')
+                  'image_url', 'content', 'approved', 'reactions', 'tags')
