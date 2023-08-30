@@ -4,8 +4,9 @@ from rest_framework.response import Response
 from rest_framework import serializers, status
 from rareapi.models import Category
 
+
 class CategoryView(ViewSet):
-  def list(self, request):
+    def list(self, request):
         """Handle GET requests to get all game types
 
         Returns:
@@ -14,6 +15,21 @@ class CategoryView(ViewSet):
         categories = Category.objects.all().order_by('label')
         serializer = CategorySerializer(categories, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def create(self, request):
+        """Handle POST requests for creating a new category
+
+        Returns:
+            Response -- JSON serialized category record
+        """
+
+        new_category = Category()
+        new_category.label = request.data["label"]
+        new_category.save()
+
+        serialized = CategorySerializer(new_category, many=False)
+        return Response(serialized.data, status=status.HTTP_201_CREATED)
+
 
 class CategorySerializer(serializers.ModelSerializer):
     """JSON serializer for game types
