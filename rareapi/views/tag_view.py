@@ -14,7 +14,17 @@ class TagView(ViewSet):
         tags = Tag.objects.all().order_by('label')
         serializer = TagSerializer(tags, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
+  
+  def retrieve(self, request, pk):
+        """Handle GET requests for a single tag
 
+        Returns:
+            Response -- JSON serialized tag instance
+        """
+        tag = Tag.objects.get(pk=pk)
+        serializer = TagSerializer(tag, many=False)
+        return Response(serializer.data)
+        
   def create(self, request):
         """Handle POST operations
 
