@@ -29,6 +29,17 @@ class CategoryView(ViewSet):
 
         serialized = CategorySerializer(new_category, many=False)
         return Response(serialized.data, status=status.HTTP_201_CREATED)
+    
+    def retrieve(self, request, pk=None):
+        """Handle GET requests for single category
+
+        Returns:
+            Response -- JSON serialized category record
+        """
+
+        category = Category.objects.get(pk=pk)
+        serialized = CategorySerializer(category, context={'request': request})
+        return Response(serialized.data, status=status.HTTP_200_OK)
 
 
 class CategorySerializer(serializers.ModelSerializer):
