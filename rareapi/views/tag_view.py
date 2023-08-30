@@ -13,8 +13,20 @@ class TagView(ViewSet):
         """
         tags = Tag.objects.all().order_by('label')
         serializer = TagSerializer(tags, many=True)
-        return Response(serializer.data)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
+  def create(self, request):
+        """Handle POST operations
+
+        Returns
+            Response -- JSON serialized Tag instance
+        """
+        tag = Tag.objects.create(
+            label=request.data["label"]
+        )
+        serializer = TagSerializer(tag)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    
 class TagSerializer(serializers.ModelSerializer):
     """JSON serializer for game types
     """
