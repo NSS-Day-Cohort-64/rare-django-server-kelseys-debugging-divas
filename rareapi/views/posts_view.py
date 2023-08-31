@@ -55,6 +55,22 @@ class PostView(ViewSet):
         serializer = PostSerializer(post)
         return Response(serializer.data)
 
+    def update(self, request, pk):
+        """Handle PUT requests for a post
+
+        Returns:
+            Response -- Empty body with 204 status code
+        """
+
+        post = Post.objects.get(pk=pk)
+        post.title = request.data["title"]
+        post.image_url = request.data["image_url"]
+        post.content = request.data["content"]
+        post.category = Category.objects.get(pk=request.data["category"])
+        post.save()
+
+        return Response(None, status=status.HTTP_204_NO_CONTENT)
+
     def destroy(self, request, pk):
         """Handle DELETE requests for posts
 
