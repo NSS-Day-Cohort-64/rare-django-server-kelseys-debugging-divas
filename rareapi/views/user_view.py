@@ -14,7 +14,7 @@ class UserView(ViewSet):
         tags = User.objects.all()
         serializer = UserSerializer(tags, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
-  
+
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
