@@ -3,6 +3,8 @@ from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
 from rest_framework import serializers, status
 from rareapi.models import Category
+from django.db.models.functions import Lower
+from django.db.models import F
 
 
 class CategoryView(ViewSet):
@@ -12,7 +14,9 @@ class CategoryView(ViewSet):
         Returns:
             Response -- JSON serialized list of game types
         """
-        categories = Category.objects.all().order_by('label')
+        categories = Category.objects.annotate(lower_label=Lower('label'))
+        categories = categories.order_by(
+            F('lower_label').asc(nulls_first=True), 'label')
         serializer = CategorySerializer(categories, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
@@ -29,7 +33,7 @@ class CategoryView(ViewSet):
 
         serialized = CategorySerializer(new_category, many=False)
         return Response(serialized.data, status=status.HTTP_201_CREATED)
-    
+
     def retrieve(self, request, pk=None):
         """Handle GET requests for single category
 
