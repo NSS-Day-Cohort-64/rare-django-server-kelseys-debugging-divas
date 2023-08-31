@@ -16,7 +16,7 @@ class PostView(ViewSet):
 
     def list(self, request):
         now = timezone.now()
-
+        
         posts = Post.objects.filter(
             approved=True,
             publication_date__lte=now

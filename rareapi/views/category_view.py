@@ -44,6 +44,21 @@ class CategoryView(ViewSet):
         category = Category.objects.get(pk=pk)
         serialized = CategorySerializer(category, context={'request': request})
         return Response(serialized.data, status=status.HTTP_200_OK)
+    
+
+
+    def destroy(self, request, pk):
+        """Handle DELETE requests for categories
+
+        Returns:
+            Response -- Empty body with 204 status code
+        """
+        
+
+        category = Category.objects.get(pk=pk)
+        category.delete()
+        return Response(None, status=status.HTTP_204_NO_CONTENT)
+
 
 
 class CategorySerializer(serializers.ModelSerializer):

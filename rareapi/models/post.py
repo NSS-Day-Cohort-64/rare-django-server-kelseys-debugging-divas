@@ -7,7 +7,7 @@ class Post(models.Model):
     author = models.ForeignKey(
         User, on_delete=models.DO_NOTHING, related_name='authored')
     category = models.ForeignKey(
-        "Category", on_delete=models.DO_NOTHING, related_name='posts')
+        "Category", on_delete=models.CASCADE, related_name='posts')
     title = models.CharField(max_length=100)
     publication_date = models.DateTimeField(auto_now=True)
     image_url = models.CharField(max_length=150)
